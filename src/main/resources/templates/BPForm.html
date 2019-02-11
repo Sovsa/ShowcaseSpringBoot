@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Register - Business Partner</title>
+<link rel="stylesheet" type="text/css" href="/SOS/css/style.css" />
+<script src="/SOS/js/FilterFunctions.js">
+	
+</script>
+</head>
+<body>
+	<a href="/SOS"><img id="logo"
+		alt="SATO - Ceaseless Creativity for a Sustainable World"
+		src="/SOS/resources/banner" /></a>
+	<div id="navBar">
+		<ul>
+			<li><a class="active" href="/SOS/en/registerbp">Register
+					Business Partner</a></li>
+			<li><a href="/SOS/en/registerec">Register End Customer</a></li>
+			<li><a href="/SOS/en/viewregistry">Registry</a></li>
+		</ul>
+	</div>
+	<form method="post" style="width: 70%;">
+		<div class="leftColumn">
+			<p>First Name:</p>
+			<input type="text" name="firstName" required="true" />
+			<p style="display: inline-block;">Reigstrant Email Address:</p>
+			<div class="tooltip">
+				? <span class="tooltiptext">This will be your login username.</span>
+			</div>
+			<input type="email" required="true" name="email" />
+			<p>Country:</p>
+			<select name="country">
+				<option th:each="country : ${countryList}"
+					th:text="${country.getName()}" th:value="${country.getId()}" />
+			</select>
+			<p>Company Name:</p>
+			<input type="text" required="true" name="company" />
+			<p>Company address:</p>
+			<input type="text" name="companyAddress" />
+			<p>Contract Start Date:</p>
+			<input type="date" required="true" name="contractStartDate" />
+			<p>General Contact Email Address:</p>
+			<input type="email" required="true" name="contactEmailAddress" /><br />
+			<p>Would you like to share customer information with SATO?</p>
+
+			<input type="radio" name="infoSharing" value="true" />Yes <input
+				type="radio" name="infoSharing" value="false" />No <br />
+			<p>In order to submit this registration, you have to accept our
+				Terms and Conditions:</p>
+			<p>
+				<input type="checkbox" required="true" />I accept the <a
+					href="/SOS/resources/termsandconditions">Terms and Conditions</a>
+			</p>
+			<input style="margin-top: 40px;" class="submitButton" type="submit" />
+		</div>
+		<div class="rightColumn">
+			<p>Last Name:</p>
+			<input type="text" required="true" name="lastName" />
+			<p>Account Access Level</p>
+			<select name="accountLevel" required="true">
+				<option value="admin">Admin</option>
+				<option value="viewer">Viewer</option>
+			</select>
+			<p>Language:</p>
+			<select name="language" required="true">
+				<option value="English">English</option>
+				<option value="Japanese">Japanese</option>
+				<option value="Chinese">Chinese</option>
+			</select>
+			<p>Postal Code:</p>
+			<input type="text" name="postalCode" />
+			<p style="display: inline-block;">Sub domain:</p>
+			<div class="tooltip">
+				?<span class="tooltiptext"> Used to let you and your customer
+					reach your SOS workspace. Can only contain a-z, A-Z, 0-9 and .</span>
+			</div>
+			<input type="text" required="true" name="subDomain"
+				onkeyup="subdomainFilter(this)" />
+			<p style="display: inline-block;">Contract End Date:</p>
+			<div class="tooltip">
+				?<span class="tooltiptext">Contract lasts mostly 1, 2 or 3
+					years after desired Start Date </span>
+			</div>
+			<input type="date" required="true" name="contractEndDate" />
+			<p>Company Website:</p>
+			<input type="text" name="companyWebsite" />
+
+		</div>
+		<input type="hidden" th:name="${_csrf.parameterName}"
+			th:value="${_csrf.token}" />
+	</form>
+</body>
+</html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+</meta>
+<title>Registry</title>
+<link rel="stylesheet" type="text/css" href="/SOS/css/style.css" />
+<script src="/SOS/js/tablesort.js"></script>
+</head>
+<body>
+	<a href="/SOS"><img id="logo"
+		alt="SATO - Ceaseless Creativity for a Sustainable World"
+		src="/SOS/resources/banner" /></a>
+	<div id="navBar">
+		<ul>
+			<li><a href="/SOS/en/registerbp">Register Business Partner</a></li>
+			<li><a href="/SOS/en/registerec">Register End Customer</a></li>
+			<li><a class="active" href="/SOS/en/viewregistry">Registry</a></li>
+			<li style="float: right;">
+				<form id="myform" method="post" th:action="@{/SOS/logout}">
+  					<input type="hidden" name="name" value="value" /> 
+  					<a onclick="document.getElementById('myform').submit();">Logout</a>
+				</form>
+			</li>
+		</ul>
+	</div>
+
+	<p>Filter By GMC:</p>
+	<div id="filterButtons">
+		<a href="/SOS/en/wiewregistry?gmc=Nordic" target=""><button>SEGN</button></a>
+		<a href="/SOS/en/viewregistry?gmc=SUL" target=""><button>SUL</button></a>
+		<a href="/SOS/en/viewregistry?gmc=SEGB" target=""><button>SEGB</button></a>
+		<a href="/SOS/en/viewregistry?gmc=SFS" target=""><button>SFS</button></a>
+		<a href="/SOS/en/viewregistry?gmc=SIS" target=""><button>SEG</button></a>
+		<a href="/SOS/en/viewregistry?gmc=SGG%20ITALY" target=""><button>SEG DACH/R/CEE</button></a> 
+		<a href="/SOS/en/viewregistry?gmc=SGG" target=""><button>SEG-I</button></a>
+		<a href="/SOS/en/viewregistry?gmc=SPZ" target=""><button>SEG-P</button></a>
+	</div>
+	<div>
+		<a href="/SOS/en/viewregistry?showRegistered=true" target=""><button>Show
+				all registered</button></a> <a href="/SOS/en/viewregistry?" target=""><button>Show
+				all not registered</button></a>
+	</div>
+	<div>
+		<a href="/SOS/en/viewregistry" target=""><button>Reset filter</button></a>
+	</div>
+	<h2>Business Partners</h2>
+	<form method="post">
+		<table class="sortable">
+			<tr>
+				<th>Submitted</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Email</th>
+				<th>Account Access Level</th>
+				<th>Company</th>
+				<th>Country</th>
+				<th>Postal Code</th>
+				<th>Company address</th>
+				<th>Language</th>
+				<th>Sub Domain</th>
+				<th>Contract Start Date</th>
+				<th>Contract End Date</th>
+				<th>Info Sharing</th>
+				<th>Company Website</th>
+				<th>General Contact Email</th>
+				<span th:if="${isRegistered == false}"><th>Mark as
+						registered</th></span>
+			</tr>
+			<tr th:each="customer : ${bpList}">
+				<td class="tableValue"
+					th:text=" ${#dates.format(customer.getSubmitted(), 'yyyy-MM-dd')} " />
+				<td class="tableValue" th:text=" ${customer.getFirstName() }" />
+				<td class="tableValue" th:text=" ${customer.getLastName()} " />
+				<td class="tableValue" th:text=" ${customer.getEmail()} " />
+				<td class="tableValue" th:text=" ${customer.getAccountLevel()} " />
+				<td class="tableValue" th:text=" ${customer.getCompany()} " />
+				<td class="tableValue"
+					th:text=" ${customer.getCountry().getName()} " />
+				<td class="tableValue" th:text=" ${customer.getPostalCode()} " />
+				<td class="tableValue" th:text=" ${customer.getCompanyAddress()} " />
+				<td class="tableValue" th:text=" ${customer.getLanguage()} " />
+				<td class="tableValue" th:text=" ${customer.getSubDomain()} " />
+				<td class="tableValue"
+					th:text=" ${#dates.format(customer.getContractStartDate(), 'yyyy-MM-dd')} " />
+				<td class="tableValue"
+					th:text=" ${#dates.format(customer.getContractEndDate(), 'yyyy-MM-dd')} " />
+				<td class="tableValue"
+					th:text=" ${customer.isInfoSharing()}? Yes : No " />
+				<td class="tableValue" th:text=" ${customer.getCompanyWebsite()} " />
+				<td class="tableValue"
+					th:text=" ${customer.getContactEmailAddress()} " />
+				<span th:if="${isRegistered == false}">
+					<td class="tableValue"><input type="checkbox" name="bpDelete"
+						th:value="${customer.getId()}" /></td>
+				</span>
+			</tr>
+		</table>
+		<input style="" type="submit" value="Register selected" /> <input
+			type="hidden" th:name="${_csrf.parameterName}"
+			th:value="${_csrf.token}" />
+
+	</form>
+	<h2>End Customers</h2>
+	<form method="post">
+		<table class="sortable">
+			<tr>
+				<th>Submitted</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Email</th>
+				<th>Account Access Level</th>
+				<th>Company</th>
+				<th>Industrial Segment</th>
+				<th>Country</th>
+				<th>Postal Code</th>
+				<th>Address</th>
+				<th>Printer Location</th>
+				<th>Division Location</th>
+				<th>Contact Phone Number</th>
+				<th>Printer seller</th>
+				<span th:if="${isRegistered == false}"><th>Mark as
+						registered</th></span>
+			</tr>
+			<tr th:each="endCustomer : ${ecList}">
+				<td class="tableValue"
+					th:text=" ${#dates.format(endCustomer.getSubmitted(), 'yyyy-MM-dd')} " />
+				<td class="tableValue" th:text=" ${endCustomer.getFirstName()} " />
+				<td class="tableValue" th:text=" ${endCustomer.getLastName()} " />
+				<td class="tableValue"
+					th:text=" ${endCustomer.getRegistrantMail()} " />
+				<td class="tableValue" th:text=" ${endCustomer.getAccountLevel()} " />
+				<td class="tableValue" th:text=" ${endCustomer.getCompany()} " />
+				<td class="tableValue"
+					th:text=" ${endCustomer.getIndustrialSegment()} " />
+				<td class="tableValue"
+					th:text=" ${endCustomer.getCountry().getName()} " />
+				<td class="tableValue" th:text=" ${endCustomer.getPostalCode()} " />
+				<td class="tableValue" th:text=" ${endCustomer.getAddress()} " />
+				<td class="tableValue"
+					th:text=" ${endCustomer.getPrinterLocation()} " />
+				<td class="tableValue"
+					th:text=" ${endCustomer.getDivisionLocation()} " />
+				<td class="tableValue"
+					th:text=" ${endCustomer.getContactPhoneNumber()} " />
+				<td>
+					<p class="tableValue"
+						th:text=" ${endCustomer.getUnregisteredBP().getBpName()} "></p>
+					<p class="tableValue"
+						th:text="${endCustomer.getUnregisteredBP().getCountry() == null}? '' : ${endCustomer.getUnregisteredBP().getCountry().getName()}"></p>
+					<p class="tableValue"
+						th:text="${endCustomer.getUnregisteredBP().getCity() == null}? '' : ${endCustomer.getUnregisteredBP().getCity()}"></p>
+					<p class="tableValue"
+						th:text="${endCustomer.getUnregisteredBP().getPostalCode() == null}? '' : ${endCustomer.getUnregisteredBP().getPostalCode()}"></p>
+				</td>
+				<span th:if="${isRegistered == false}">
+					<td class="tableValue"><input type="checkbox" name="ecDelete"
+						th:value="${endCustomer.getId()}" /></td>
+				</span>
+			</tr>
+		</table>
+		<input
+			type="hidden" th:name="${_csrf.parameterName}"
+			th:value="${_csrf.token}" />
+		<input style="" type="submit" value="Register selected" /> 
+
+	</form>
+</body>
+</html>
